@@ -11,6 +11,8 @@ _+_ : ℕ → ℕ → ℕ
 0 + b = b
 suc a + b = suc (a + b)
 
+
+
 infix 20 _*_
 _*_ : ℕ → ℕ → ℕ
 0 * b = 0
@@ -43,10 +45,13 @@ p ∙ q = trans p q
 
 
 
+
 -- Some proofs
 
-suc-apply : (a b : ℕ) -> suc a + b ≡ suc (a + b)
-suc-apply a b  = refl
+-- Addition
+
+suc-add : (a b : ℕ) -> suc a + b ≡ suc (a + b)
+suc-add a b  = refl
 
 left-zero : (a : ℕ) → 0 + a ≡ a
 left-zero a = refl
@@ -62,7 +67,7 @@ lr-add-zero a = trans (left-zero a) (sym (right-zero a))
 right-suc : (a b : ℕ) → a + suc b ≡ suc (a + b)
 right-suc zero b = left-zero (suc b) ∙ cong suc (sym (left-zero b))
 right-suc (suc a) b = g ∙ f where
-   f = cong suc (sym (suc-apply a b))
+   f = cong suc (sym (suc-add a b))
    g = (cong suc (right-suc a b))
 
 
@@ -72,19 +77,51 @@ assoc-plus (suc a) b c = cong suc (assoc-plus a b c)
 
 comm-plus : (a b : ℕ) → a + b ≡ b + a
 comm-plus zero b = lr-add-zero b
-comm-plus (suc a) zero = trans (right-zero (suc a)) (left-zero (suc a))
+comm-plus (suc a) zero = right-zero (suc a) ∙ left-zero (suc a)
 comm-plus (suc a) (suc b) =  f₁ ∙ f₂ ∙ f₃ where
-  f₁ = suc-apply a (suc b)             -- suc a + suc b ≡ suc (a + suc b)
+  f₁ = suc-add a (suc b)             -- suc a + suc b ≡ suc (a + suc b)
   f₂ = cong suc (comm-plus a (suc b))  -- 
   f₃ = sym (right-suc (suc b) a)       --
    
+
+-- Multplication
+
+suc-mul : (a b : ℕ) → (suc a) * b ≡ b + a * b
+suc-mul zero b = {!!}
+suc-mul (suc a) b = {!!}
 
 mult-zero : (a : ℕ) → 0 * a ≡ 0
 mult-zero a = refl
 
 mult-one : (a : ℕ) → a * 1 ≡ a
 mult-one 0 = refl
-mult-one (suc a) = cong suc (mult-one a) 
+mult-one (suc a) = cong suc (mult-one a)
+
+plus : ℕ → ℕ → ℕ
+plus a x = a + x
+
+f : ℕ → ℕ
+f = plus 2
+
+
+dist : (a b c : ℕ) → a * (b + c) ≡ a * b + a * c
+dist zero b c = refl
+dist (suc a) b c = {!!} where
+  f₁ = cong (plus (b + c)) (dist a b c)
+
+
+-- Recursive functions
+
+double : ℕ → ℕ
+double zero = zero
+double (suc n) = suc (suc (double n))
 
 
 
+
+check-double : (a : ℕ) → double a ≡ 2 * a
+check-double zero = refl
+check-double (suc a) = cong suc2 (check-double a) ∙ {!!}  where
+   suc2 : ℕ → ℕ
+   suc2 a = suc (suc a)
+   
