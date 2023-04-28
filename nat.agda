@@ -51,6 +51,7 @@ suc-apply a b  = refl
 left-zero : (a : ℕ) → 0 + a ≡ a
 left-zero a = refl
 
+
 right-zero : (a : ℕ) → a + 0 ≡ a
 right-zero 0 = refl
 right-zero (suc a) = cong suc (right-zero a)
@@ -63,7 +64,6 @@ right-suc zero b = left-zero (suc b) ∙ cong suc (sym (left-zero b))
 right-suc (suc a) b = g ∙ f where
    f = cong suc (sym (suc-apply a b))
    g = (cong suc (right-suc a b))
-   
 
 
 assoc-plus : (a b c : ℕ) -> (a + b) + c ≡ a + (b + c)
@@ -73,7 +73,11 @@ assoc-plus (suc a) b c = cong suc (assoc-plus a b c)
 comm-plus : (a b : ℕ) → a + b ≡ b + a
 comm-plus zero b = lr-add-zero b
 comm-plus (suc a) zero = trans (right-zero (suc a)) (left-zero (suc a))
-comm-plus (suc a) (suc b) = {!!} 
+comm-plus (suc a) (suc b) =  f₁ ∙ f₂ ∙ f₃ where
+  f₁ = suc-apply a (suc b)             -- suc a + suc b ≡ suc (a + suc b)
+  f₂ = cong suc (comm-plus a (suc b))  -- 
+  f₃ = sym (right-suc (suc b) a)       --
+   
 
 mult-zero : (a : ℕ) → 0 * a ≡ 0
 mult-zero a = refl
