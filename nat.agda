@@ -57,6 +57,7 @@ infixr 3 _∙_
 _∙_ : {A : Set} {x y z : A} -> x ≡ y -> y ≡ z -> x ≡ z
 p ∙ q = trans p q
 
+   
 
 
 
@@ -96,16 +97,19 @@ comm-plus (suc a) (suc b) =  f₁ ∙ f₂ ∙ f₃ where
   f₃ = sym (suc-add-right (suc b) a)       --
    
 
--- Multplication
+-- Multplication ● 
 
-mult-zero : (a : ℕ) → 0 * a ≡ 0
-mult-zero a = refl
+mul-zero-left : (a : ℕ) → 0 * a ≡ 0
+mul-zero-left a = refl
 
 suc-mul-left : (a b : ℕ) → (suc a) * b ≡ b + a * b
 suc-mul-left zero b = refl
-suc-mul-left (suc a) b = {!!} where
+suc-mul-left (suc a) b = {!!} ∙ f₁  ∙ {!!} where
   f₁ = cong suc (suc-mul-left a b)
   f₂ = sym (suc-add-right b (a * b))
+
+-- foo a b =  cong suc (suc-mul-left a b)
+-- bar a b =  sym (suc-add-right b (a * b)
 
 suc-mul-right : (a b : ℕ) → a * (suc b) ≡ a + a * b
 suc-mul-right zero b = refl
