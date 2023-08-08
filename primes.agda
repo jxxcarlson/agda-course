@@ -174,12 +174,7 @@ step-divisor divs with least-divisor (PrimeDivisors.quotient divs)
 ... | nothing = record divs { quotient = 1; divisors =  (PrimeDivisors.quotient divs) ::  (PrimeDivisors.divisors divs) }
 ... | just d = record divs { quotient = PrimeDivisors.quotient divs / d
                             ; divisors = d :: PrimeDivisors.divisors divs }
-    
-f : ℕ → List ℕ
-f n =
-  PrimeDivisors.divisors pd where
-    pd = step-divisor (step-divisor-init 12)
-
+ 
 prime-divisors-aux : ℕ → PrimeDivisors → PrimeDivisors
 prime-divisors-aux 0 pd = pd
 prime-divisors-aux (suc n) pd =
