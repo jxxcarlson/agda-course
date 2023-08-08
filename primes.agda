@@ -163,40 +163,18 @@ record PrimeDivisors : Set where
     target : ℕ
     quotient : ℕ
     divisors : List ℕ
-    done : Bool
 
 step-divisor-init : ℕ → PrimeDivisors
-step-divisor-init n = record { target = n; quotient = n; divisors = []; done = false }
+step-divisor-init n = record { target = n; quotient = n; divisors = [] }
 
 
 
 step-divisor : PrimeDivisors → PrimeDivisors
 step-divisor divs with least-divisor (PrimeDivisors.quotient divs)
-... | nothing = record divs { done = true }
+... | nothing = record divs { quotient = 1; divisors =  (PrimeDivisors.quotient divs) ::  (PrimeDivisors.divisors divs) }
 ... | just d = record divs { quotient = PrimeDivisors.quotient divs / d
-                            ; divisors = d :: PrimeDivisors.divisors divs
-                            ; done = false }
+                            ; divisors = d :: PrimeDivisors.divisors divs }
     
-
-
-
-x0 : PrimeDivisors
-x0 = step-divisor-init 30
-
-x1 : PrimeDivisors
-x1 = step-divisor x0
-
-x2 : PrimeDivisors
-x2 = step-divisor x1
-
--- PrimeDivisors.quotient x2 = 5
--- PrimeDivisors.divisors x2 = 3 :: 2 :: []
-
-
-x3 : PrimeDivisors
-x3 = step-divisor x2
-
-
 f : ℕ → List ℕ
 f n =
   PrimeDivisors.divisors pd where
@@ -214,4 +192,4 @@ prime-divisors n =
   PrimeDivisors.divisors pd where
     pd = prime-divisors-aux n (step-divisor-init n)
    
-  
+ 
