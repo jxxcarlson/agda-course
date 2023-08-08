@@ -72,6 +72,8 @@ right-zero : (a : ℕ) → a + 0 ≡ a
 right-zero 0 = refl
 right-zero (suc a) = cong suc (right-zero a)
 
+
+
 lr-add-zero : (a : ℕ) → 0 + a ≡ a + 0
 lr-add-zero a = trans (left-zero a) (sym (right-zero a))
 

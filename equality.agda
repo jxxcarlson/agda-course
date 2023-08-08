@@ -29,6 +29,12 @@ cong-app : ∀ {A B : Set} {f g : A → B}
 cong-app refl x = refl
 
 
+subst : ∀ {A : Set} {x y : A} (P : A → Set)
+  → x ≡ y
+    ---------
+  → P x → P y
+subst P refl px = px
+
 eq : {A : Set} -> (a b c : A) -> (p : a ≡ b) -> (q : b ≡ c) -> a ≡ c
 eq {A} a b c refl refl = refl
 
