@@ -24,14 +24,15 @@ divides m n = ∃[ k ] (k * m ≡ n)
 -- Agda was trying to use ℕ as a sort (type universe) when it should be used as a type.
 
 
-
 product : List ℕ → ℕ
 product = foldr _*_ 1
 
 -- Helper functions
 
--- generates a list of numbers from m   
+  
 {-# TERMINATING #-}  -- Add this pragma for fromTo
+
+-- generates a list of numbers from m 
 fromTo : ℕ → ℕ → List ℕ
 fromTo m n with m ≤? n
 ... | yes m≤n = m ∷ fromTo (suc m) n
@@ -57,6 +58,13 @@ primesUpTo : ℕ → List ℕ
 primesUpTo n = filter (λ x → isPrime? x) (fromTo 2 n)
 
 
+-- First, let's make sure we have isPrime defined properly
+isPrime : ℕ → Set
+isPrime n = (n > 1) × ((m : ℕ) → divides m n → (m ≡ 1) ⊎ (m ≡ n))
+
+-- Theorem: There are infinitely many primes
+infinitePrimes : (n : ℕ) → Σ ℕ (λ p → (p > n) × isPrime p)
+infinitePrimes n = {!!}
 
 
 -- This explicitly tells Agda that we're looking for a natural number p that satisfies our conditions. The Σ type constructor takes two arguments:
