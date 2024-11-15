@@ -1,5 +1,10 @@
 Files for Agda course:
 
-- nat-simple.agda
-- nat-comm-addition.agda
+- bool
 
+- equality
+
+- nat
+- nat-simple
+- nat-comm-addition
+- primes
