@@ -6,6 +6,9 @@ data ℕ : Set where
      zero : ℕ
      suc : ℕ → ℕ
 
+
+
+
 {-# BUILTIN NATURAL ℕ #-}
 
 infixr 10 _+_
@@ -17,6 +20,10 @@ infixr 11 _*_
 _*_ : ℕ → ℕ → ℕ
 0 * b = 0
 (suc a) * b = b + a * b
+
+double : ℕ → ℕ
+double zero = zero
+double (suc a) = suc (suc (double a))
 
 pred : ℕ → ℕ
 pred 0 = 0
@@ -166,8 +173,6 @@ record PrimeDivisors : Set where
 
 step-divisor-init : ℕ → PrimeDivisors
 step-divisor-init n = record { target = n; quotient = n; divisors = [] }
-
-
 
 step-divisor : PrimeDivisors → PrimeDivisors
 step-divisor divs with least-divisor (PrimeDivisors.quotient divs)
