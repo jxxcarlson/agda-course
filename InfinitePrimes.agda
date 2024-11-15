@@ -1,23 +1,25 @@
 module InfinitePrimes where
 
-open import Data.Nat using (ℕ; zero; suc; _+_; _*_; _≤_; _≥_;_<_; _≟_; _>_;pred; _∸_; NonZero)
-open import Data.Nat.Properties using (≤-refl; ≤-trans; ≤-antisym; _≤?_)
-open import Relation.Binary.PropositionalEquality using (_≡_; _≢_; refl; sym; trans)
-open import Data.List using (List; []; _∷_; foldr; all; filter)
 
-open import Data.Product using (_×_; ∃; ∃-syntax; Σ) 
-open import Data.Nat.Properties using (≤-refl; ≤-trans; ≤-antisym) 
-open import Relation.Nullary using (¬_; yes; no; Dec; ⌊_⌋)
+open import Data.List using (List; []; _∷_; foldr; all; filter)
+open import Data.Nat using (ℕ; zero; suc; _+_; _*_; _≤_; _≥_;_<_; _≟_; _>_;pred; _∸_; NonZero)
+open import Data.Nat.Properties using (≤-refl; ≤-trans; ≤-antisym; _≤?_; +-comm; *-comm)
 open import Data.Nat.Divisibility using (_∣_)
 open import Data.Sum using (_⊎_)
-
 open import Data.Bool using (Bool; true; false; not)
 open import Data.Nat.DivMod using (_mod_)
 open import Data.Fin using (Fin; toℕ) 
+open import Data.Empty using (⊥) 
+open import Data.Product using (_×_; ∃; ∃-syntax; Σ; _,_) 
+open import Data.Nat.Properties using (≤-refl; ≤-trans; ≤-antisym) 
+
+open import Relation.Binary.PropositionalEquality using (_≡_; _≢_; refl; sym; trans; cong) 
+open import Relation.Nullary using (¬_; yes; no; Dec; ⌊_⌋)
+
 open import Function using (_∘_) 
 
 
--- ßPrimality definition
+-- Primality definition
 divides : ℕ → ℕ → Set
 divides m n = ∃[ k ] (k * m ≡ n)
 
@@ -62,12 +64,23 @@ primesUpTo n = filter (λ x → isPrime? x) (fromTo 2 n)
 isPrime : ℕ → Set
 isPrime n = (n > 1) × ((m : ℕ) → divides m n → (m ≡ 1) ⊎ (m ≡ n))
 
--- Theorem: There are infinitely many primes
+-- Helper function to compute N
+bigN : ℕ → ℕ
+bigN n = suc (product (primesUpTo n))
+
+
+-- Helper lemma: if a divides N = (product of primes up to n) + 1, 
+-- then a cannot be in our list of primes
+divide-not-in-list : ∀ (n a : ℕ) → 
+  (a ∣ bigN n) → a ≢ 1 → a ≤ n → isPrime a → ⊥
+divide-not-in-list n a = {!!}  
+
+--Theorem: There are infinitely many primes
 infinitePrimes : (n : ℕ) → Σ ℕ (λ p → (p > n) × isPrime p)
 infinitePrimes n = {!!}
 
 
--- This explicitly tells Agda that we're looking for a natural number p that satisfies our conditions. The Σ type constructor takes two arguments:
+-- This explicitly tells Agda that we're looking for a natural number p that csatisfies our conditions. The Σ type constructor takes two arguments:
 -- The type of the value we're looking for (ℕ in this case)
 -- A predicate over that type (λ p → (p > n) × isPrime p)
 
