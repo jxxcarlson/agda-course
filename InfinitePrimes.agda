@@ -1,27 +1,33 @@
 module InfinitePrimes where
 
 
-open import Data.List using (List; []; _∷_; foldr; all; filter)
 open import Data.Nat using (ℕ; zero; suc; _+_; _*_; _≤_; _≥_;_<_; _≟_; _>_;pred; _∸_; NonZero)
-open import Data.Nat.Properties using (≤-refl; ≤-trans; ≤-antisym; _≤?_; +-comm; *-comm)
-open import Data.Nat.Divisibility using (_∣_)
+open import Data.Nat.Properties using (≤-refl; ≤-trans; ≤-antisym; _≤?_; +-suc; +-comm; *-comm)
+open import Relation.Binary.PropositionalEquality using (_≡_; _≢_; refl; sym; trans; cong)
+open import Data.Empty using (⊥)    
+
+
+
+-- open import Data.Nat.Divisibility using (_∣_; divides)
+
+
+
+open import Data.List using (List; []; _∷_; foldr; all; filter)
 open import Data.Sum using (_⊎_)
 open import Data.Bool using (Bool; true; false; not)
 open import Data.Nat.DivMod using (_mod_)
 open import Data.Fin using (Fin; toℕ) 
-open import Data.Empty using (⊥) 
 open import Data.Product using (_×_; ∃; ∃-syntax; Σ; _,_) 
 open import Data.Nat.Properties using (≤-refl; ≤-trans; ≤-antisym) 
 
-open import Relation.Binary.PropositionalEquality using (_≡_; _≢_; refl; sym; trans; cong) 
 open import Relation.Nullary using (¬_; yes; no; Dec; ⌊_⌋)
 
 open import Function using (_∘_) 
 
 
--- Primality definition
-divides : ℕ → ℕ → Set
-divides m n = ∃[ k ] (k * m ≡ n)
+
+data Divides (m n : ℕ) : Set where
+  divides-def : ∀ k → k * m ≡ n → Divides m n
 
 -- Agda was trying to use ℕ as a sort (type universe) when it should be used as a type.
 
@@ -62,7 +68,7 @@ primesUpTo n = filter (λ x → isPrime? x) (fromTo 2 n)
 
 -- First, let's make sure we have isPrime defined properly
 isPrime : ℕ → Set
-isPrime n = (n > 1) × ((m : ℕ) → divides m n → (m ≡ 1) ⊎ (m ≡ n))
+isPrime n = (n > 1) × ((m : ℕ) →  Divides m n → (m ≡ 1) ⊎ (m ≡ n))
 
 -- Helper function to compute N
 bigN : ℕ → ℕ
@@ -72,12 +78,12 @@ bigN n = suc (product (primesUpTo n))
 -- Helper lemma: if a divides N = (product of primes up to n) + 1, 
 -- then a cannot be in our list of primes
 divide-not-in-list : ∀ (n a : ℕ) → 
-  (a ∣ bigN n) → a ≢ 1 → a ≤ n → isPrime a → ⊥
-divide-not-in-list n a = {!!}  
-
---Theorem: There are infinitely many primes
-infinitePrimes : (n : ℕ) → Σ ℕ (λ p → (p > n) × isPrime p)
-infinitePrimes n = {!!}
+  Divides a (bigN n) →  -- Using our Divides relation
+  a ≢ 1 → 
+  a ≤ n → 
+  isPrime a → 
+  ⊥
+divide-not-in-list n a a∣bigN a≢1 a≤n isPrime-a = {!!}
 
 
 -- This explicitly tells Agda that we're looking for a natural number p that csatisfies our conditions. The Σ type constructor takes two arguments:
