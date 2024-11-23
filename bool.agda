@@ -31,6 +31,8 @@ or' : Bool → Bool → Bool
 or' false false = false
 or' _ _ = true
 
+
+
 -- Some proofs
 
 -- For the proofs we need equality as a type
@@ -47,7 +49,7 @@ double-negation true = refl
 double-negation false = refl
 
 
--- Altenative formulation I of double negation
+-- Alternative formulation I of double negation
 double-negation' : ∀ (a : Bool) → ¬ ¬ a ≡ a
 double-negation' true = refl
 double-negation' false = refl

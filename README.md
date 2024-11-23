@@ -10,4 +10,6 @@ Files for Agda course:
 - equality
 - rewrite-example
 
+- Main: a program that prints "Hello, Agda!"
+
 

@@ -37,6 +37,8 @@ Here’s what happens:
 	
   2.	After rewrite eq2, the goal  y ≡ z  becomes trivial, and refl completes the proof.
 
+  https://www.math.fsu.edu/~ealdrov/teaching/2020-21/fall/MAS5932/agda/simplethms-1.html#587
+
 -}
 
 
